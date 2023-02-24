@@ -1,3 +1,4 @@
+"use strict";
 import {nameIsValid}  from './validator.mjs'
 import {renderInput,renderWelcomeMessage,div,p,btn,input} from './createElements.mjs'
 
