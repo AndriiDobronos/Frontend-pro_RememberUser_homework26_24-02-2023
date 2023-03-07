@@ -4,30 +4,39 @@ import {renderInput,renderWelcomeMessage,div,p,btn,input} from './createElements
 
 const checkStorage = localStorage.getItem('newUser')
 if(!checkStorage) {
-    renderInput(function onOkClick()   {
-        btn.remove();
-        input.remove();
-        setTimeout(function() {p.remove()}, 2000)
-        setTimeout(function() {div.remove()}, 3000)
-    })
-
+    let userInput = ''
     input.addEventListener('input',function (event) {
-        const userInput = event.target.value
-        if(nameIsValid(`${userInput}`)){
+        userInput = event.target.value
+        if(nameIsValid(`${userInput}`)) {
             p.textContent = 'Hi,what is your name?'
             div.style.borderColor = "lightgreen"
-            btn.onclick = () => {
-                if(userInput.length !== 1){
-                    renderWelcomeMessage(`${userInput}`)
-                    localStorage.setItem('newUser', `${userInput}`)
-                }
-            }
-        }else if(userInput === ''){
+        }else if (userInput.length >= 1){
+            div.style.borderColor = "red"
+        }else{
             p.textContent = 'Hi,what is your name?'
             div.style.borderColor = "darkblue"
-        }else {
+        }
+    })
+    renderInput(function onOkClick() {
+        if(nameIsValid(`${userInput}`)) {
+            renderWelcomeMessage(`${userInput}`)
+            localStorage.setItem('newUser', `${userInput}`)
+        }else if(userInput.length >= 1){
             p.textContent  =`Name: ${userInput} is invalid`
-            div.style.borderColor = "red"
+        }else{
+            p.textContent = `Do you want to go out ?\n
+             If not, fill out the form`;
+            btn.onclick = () => {
+                if (userInput === '') {
+                    p.textContent = "Ok Goodbye"
+                    setTimeout(function() {div.remove()}, 2000)
+                }else if(nameIsValid(`${userInput}`)) {
+                    renderWelcomeMessage(`${userInput}`)
+                    localStorage.setItem('newUser', `${userInput}`)
+                }else {
+                    p.textContent  =`Name: ${userInput} is invalid`
+                }
+            }
         }
     })
 } else {

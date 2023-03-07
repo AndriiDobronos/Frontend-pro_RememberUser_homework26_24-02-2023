@@ -49,6 +49,8 @@ const btn = document.createElement('button')
 document.body.append(div)
 
 function renderInput(handlerFunc) {
+    div.remove()
+    document.body.append(div)
     div.append(p)
     p.textContent = 'Hi,what is your name?'
     input.type = "text"
